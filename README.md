@@ -2,7 +2,7 @@
  This is an AndroidStudio rebuild of google SDK sample NotePad
 # NotePad主要目录结构
  ------------------
- ![](https://github.com/Saberalter123/NotePad/image/img "项目结构图")
+ ![项目结构](https://github.com/Saberalter123/NotePad/image/img "项目结构图")
  
 # 笔记显示时间戳功能
 -----------------

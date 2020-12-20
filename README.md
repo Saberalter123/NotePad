@@ -372,5 +372,133 @@
     ![编辑标题无焦点](https://github.com/Saberalter123/NotePad/blob/master/image/img08.png)
     ![编辑标题无焦点](https://github.com/Saberalter123/NotePad/blob/master/image/img09.png) 
       * 点击按钮时，按钮颜色的变化效果：
-      ![按钮的变化](https://github.com/Saberalter123/NotePad/blob/master/image/img10.png)
-   
+      ![按钮的变化](https://github.com/Saberalter123/NotePad/blob/master/image/img10.jpg)
+      
+# 更改背景
+----------
+* 创建我们需要的背景资源文件background.xml,background_red.xml,background_green.xml,background_grey.xml,background_orange.xml,它们的代码很相似，我以background_green.xml为例，代码如下：
+
+       <?xml version="1.0" encoding="utf-8"?>
+       <shape xmlns:android="http://schemas.android.com/apk/res/android"
+           android:shape="rectangle"  android:scrollbarAlwaysDrawHorizontalTrack="false">
+           <!--实心背景颜色-->
+           <solid android:color="#AFEEEE" />
+           <!--分别设置左上，右上，左下，右下-->
+           <!-- 渐变 -->
+           <gradient
+
+               android:startColor="#AFEEEE"
+
+               android:endColor="#54FF9F"
+
+               android:angle="0"/>
+           <!-- 描边 -->
+           <stroke
+               android:width="3dp"
+               android:color="#dcdcdc"
+               android:dashWidth="5dp"
+               android:dashGap="3dp"/>
+           <!--圆角-->
+           <corners
+               android:bottomLeftRadius="20dp"
+               android:bottomRightRadius="20dp"
+               android:topLeftRadius="30dp"
+               android:topRightRadius="20dp" />
+       </shape>
+* 修改菜单list_option_menu.xml，添加一组选项，修改后的代码如下：
+
+       <?xml version="1.0" encoding="utf-8"?>
+       <menu xmlns:android="http://schemas.android.com/apk/res/android">
+           <!--  This is our one standard application action (creating a new note). -->
+           <item android:id="@+id/menu_add"
+                 android:icon="@drawable/ic_menu_compose"
+                 android:title="@string/menu_add"
+                 android:alphabeticShortcut='a'
+                 android:showAsAction="always" />
+           <!--  If there is currently data in the clipboard, this adds a PASTE menu item to the menu
+                 so that the user can paste in the data.. -->
+           <item android:id="@+id/menu_paste"
+                 android:icon="@drawable/ic_menu_compose"
+                 android:title="@string/menu_paste"
+                 android:alphabeticShortcut='p' />
+           <item android:title="background"
+                 android:icon="@drawable/ic_menu_compose">
+                 <menu>
+                     <group>
+                         <item
+                             android:id="@+id/red_fond"
+                             android:title="紫红色"/>
+                         <item
+                         android:id="@+id/greed_fond"
+                         android:title="青绿色"/>
+                         <item
+                             android:id="@+id/grey_fond"
+                             android:title="仿古色"/>
+                         <item
+                             android:id="@+id/orange_fond"
+                             android:title="褐橘色"/>
+                         <item
+                             android:id="@+id/default_fond"
+                             android:title="默认"/>
+                     </group>
+                 </menu>
+           </item>
+
+       </menu>
+* 修改Notelist中的onOptionsItemSelected方法，添加菜单的响应事件，修改后的代码如下：
+
+      @Override
+          public boolean onOptionsItemSelected(MenuItem item) {
+              if(item.isCheckable()){
+                  item.setChecked(true);
+              }
+              switch (item.getItemId()) {
+                  case R.id.menu_add:
+                      /*
+                       * Launches a new Activity using an Intent. The intent filter for the Activity
+                       * has to have action ACTION_INSERT. No category is set, so DEFAULT is assumed.
+                       * In effect, this starts the NoteEditor Activity in NotePad.
+                       */
+                      startActivity(new Intent(Intent.ACTION_INSERT, getIntent().getData()));
+                      return true;
+                  case R.id.menu_paste:
+                      /*
+                       * Launches a new Activity using an Intent. The intent filter for the Activity
+                       * has to have action ACTION_PASTE. No category is set, so DEFAULT is assumed.
+                       * In effect, this starts the NoteEditor Activity in NotePad.
+                       */
+                      startActivity(new Intent(Intent.ACTION_PASTE, getIntent().getData()));
+                      return true;
+                  case R.id.red_fond:
+                      ListView listView = getListView();
+                      listView.setBackgroundResource(R.drawable.background_red);
+                      return true;
+                  case R.id.greed_fond:
+                      ListView listView2 = getListView();
+                      listView2.setBackgroundResource(R.drawable.background_green);
+                      return true;
+                  case R.id.grey_fond:
+                      ListView listView3 = getListView();
+                      listView3.setBackgroundResource(R.drawable.background_grey);
+                      return true;
+                  case R.id.orange_fond:
+                      ListView listView4 = getListView();
+                      listView4.setBackgroundResource(R.drawable.background_orange);
+                      return true;
+                  case R.id.default_fond:
+                      ListView listView5 = getListView();
+                      listView5.setBackgroundResource(R.drawable.background);
+                      return true;
+                  default:
+                      return super.onOptionsItemSelected(item);
+              }
+          }
+     
+* 效果图如下：
+   * 调出菜单选项：
+   ![调出菜单](https://github.com/Saberalter123/NotePad/blob/master/image/img12.png) 
+   * 改变颜色背景
+   ![紫红色](https://github.com/Saberalter123/NotePad/blob/master/image/img13.png)
+   ![青绿色](https://github.com/Saberalter123/NotePad/blob/master/image/img14.png)
+   ![仿古色](https://github.com/Saberalter123/NotePad/blob/master/image/img15.png)
+   ![褐橘色](https://github.com/Saberalter123/NotePad/blob/master/image/img16.png)

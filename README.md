@@ -365,10 +365,10 @@
          </selector>
   * UI美化后的效果如图：
   ![UI整体图](https://github.com/Saberalter123/NotePad/blob/master/image/img11.png)
-    * 编辑界面，编辑文本内容时的高亮和失去焦点时的对比：
+   * 编辑界面，编辑文本内容时的高亮和失去焦点时的对比：
     ![编辑内容无焦点](https://github.com/Saberalter123/NotePad/blob/master/image/img06.png)
     ![编辑内容有焦点](https://github.com/Saberalter123/NotePad/blob/master/image/img07.png) 
-    * 编辑标题，有焦点和无无焦点的对比，按钮的效果显示：
+   * 编辑标题，有焦点和无无焦点的对比，按钮的效果显示：
     ![编辑标题无焦点](https://github.com/Saberalter123/NotePad/blob/master/image/img08.png)
     ![编辑标题无焦点](https://github.com/Saberalter123/NotePad/blob/master/image/img09.png) 
       * 点击按钮时，按钮颜色的变化效果：

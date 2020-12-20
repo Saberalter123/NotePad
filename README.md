@@ -99,8 +99,8 @@
         mysearchview.setQueryHint("搜索");
   * 设置搜索框的监听事件
       
-      mysearchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            //当搜索框被提交时的响应事件
+        mysearchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+              //当搜索框被提交时的响应事件
             @Override
             public boolean onQueryTextSubmit(String query) {
                 search(query);
@@ -127,8 +127,8 @@
             });
   * 对提交的信息进行模糊查询，并返回查询的结果
  
-       void search(String key) {
-              Intent intent = getIntent();
+        void search(String key) {
+               Intent intent = getIntent();
 
 
             if (intent.getData() == null) {

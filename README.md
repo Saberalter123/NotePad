@@ -30,8 +30,8 @@
               NotePad.Notes.COLUMN_NAME_NOTE,//2 增加文本内容
               NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE,//3 增加修改时间
       };
-     String[] dataColumns = {NotePad.Notes.COLUMN_NAME_TITLE, NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE};
-     int[] viewIDs = {android.R.id.text1, R.id.text3};
+      String[] dataColumns = {NotePad.Notes.COLUMN_NAME_TITLE, NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE};
+      int[] viewIDs = {android.R.id.text1, R.id.text3};
 * 上述时，显示的以毫秒为单位的一长串时间戳，需要对显示的时间进行数据处理。我采用的方法是，修改数据库中创建时间和修改时间的数据类型，使其直接存储为我们需要的时间显示格式。
   * 在NotePadProvider中先修改数据表中的创建时间和修改时间的数据类型
   

@@ -2,7 +2,7 @@
  This is an AndroidStudio rebuild of google SDK sample NotePad
 # NotePad主要目录结构
  ------------------
- ![项目结构](https://github.com/Saberalter123/NotePad/image/img "项目结构图")
+ ![项目结构](https://github.com/Saberalter123/NotePad/blob/master/image/img.png "项目结构图")
  
 # 笔记显示时间戳功能
 -----------------
@@ -71,4 +71,139 @@
 
         values.put(NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE, now);
       
+* 修改后，显示的时间效果如下：
+![显示时间戳1](https://github.com/Saberalter123/NotePad/blob/master/image/img01.png)
+![显示时间戳2](https://github.com/Saberalter123/NotePad/blob/master/image/img02.png)
+
+# 笔记搜索功能
+-------------
+* 要添加笔记查询功能，就要在应用中增加一个搜索的入口。在menu文件夹下创建search_menu.xml文件来配置菜单栏的搜索框及样式，其中搜索小图标为自己在网上找到的小图标，搜索框代码如下：
+
+       <?xml version="1.0" encoding="utf-8"?>
+       <menu xmlns:android="http://schemas.android.com/apk/res/android"
+           xmlns:app="http://schemas.android.com/apk/res-auto"
+           >
+           <item
+               android:id="@+id/search"
+               android:icon="@drawable/search"
+               android:title="Search"
+               android:actionViewClass="android.widget.SearchView"
+               android:showAsAction="always"
+               ></item>
+       </menu>
+* 在NoteList类中的onCreateOptionsMenu方法将第一步定义的菜单栏资源对象进行获取并实例化为SearchView对象，然后进行搜索框相关属性的设置，再对提交、输入值的响应事件进行监听与处理，并设置点击关闭按钮退出搜索，最终完成搜索框的模糊查询，退出后显示全部的笔记，实现代码如下：
+  * 实例化搜索框，并通过SearchView对象进行搜索框提示词的设置
+    
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        SearchView mysearchview = menu.findViewById(R.id.search).getActionView();
+        mysearchview.setQueryHint("搜索");
+  * 设置搜索框的监听事件
       
+      mysearchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            //当搜索框被提交时的响应事件
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                search(query);
+
+                return false;
+            }
+
+            //当搜索框中的文本内容改变时的响应事件
+            @Override
+            public boolean onQueryTextChange(String query) {
+
+                return false;
+            }
+
+        });
+  * 设置退出搜索时的响应事件
+    
+        mysearchview.setOnCloseListener(new SearchView.OnCloseListener() {
+                @Override
+                public boolean onClose() {
+                    refresh();
+                    return false;
+                }
+            });
+  * 对提交的信息进行模糊查询，并返回查询的结果
+ 
+       void search(String key) {
+              Intent intent = getIntent();
+
+
+            if (intent.getData() == null) {
+                intent.setData(NotePad.Notes.CONTENT_URI);
+            }
+
+            getListView().setOnCreateContextMenuListener(this);
+
+            //通过设置查询条件，达到模糊查询的实现
+            String selection = NotePad.Notes.COLUMN_NAME_TITLE + " LIKE ?";
+            String[] selectionArgs = {"%" + key + "%"};
+
+            Cursor cursor = managedQuery(
+                    getIntent().getData(),
+                    PROJECTION,
+                    selection,
+                    selectionArgs,
+                    NotePad.Notes.DEFAULT_SORT_ORDER
+            );
+
+            String[] dataColumns = {NotePad.Notes.COLUMN_NAME_TITLE, NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE};
+
+            int[] viewIDs = {android.R.id.text1, android.R.id.text2};
+
+            SimpleCursorAdapter adapter
+                    = new SimpleCursorAdapter(
+                    this,                             
+                    R.layout.noteslist_item,          
+                    cursor,                           
+                    dataColumns,
+                    viewIDs
+            );
+            setListAdapter(adapter);
+
+        }
+   * 退出后重新加载所有的笔记
+   
+         void refresh() {
+              Intent intent = getIntent();
+
+
+              if (intent.getData() == null) {
+                  intent.setData(NotePad.Notes.CONTENT_URI);
+              }
+
+              getListView().setOnCreateContextMenuListener(this);
+
+              String selection = null;
+              String[] selectionArgs = null;
+
+              Cursor cursor = managedQuery(
+                      getIntent().getData(),
+                      PROJECTION,
+                      selection,
+                      selectionArgs,
+                      NotePad.Notes.DEFAULT_SORT_ORDER
+              );
+
+              String[] dataColumns = {NotePad.Notes.COLUMN_NAME_TITLE, NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE};
+
+              int[] viewIDs = {android.R.id.text1, android.R.id.text2};
+
+              SimpleCursorAdapter adapter
+                      = new SimpleCursorAdapter(
+                      this,                             
+                      R.layout.noteslist_item,          
+                      cursor,                           
+                      dataColumns,
+                      viewIDs
+              );
+              setListAdapter(adapter);
+
+
+          }
+   * 搜索效果如图：
+   ![搜索1](https://github.com/Saberalter123/NotePad/blob/master/image/img03.png)
+   ![搜索2](https://github.com/Saberalter123/NotePad/blob/master/image/img04.png)
+   ![搜索3](https://github.com/Saberalter123/NotePad/blob/master/image/img05.png)

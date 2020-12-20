@@ -207,3 +207,170 @@
    ![搜索1](https://github.com/Saberalter123/NotePad/blob/master/image/img03.png)
    ![搜索2](https://github.com/Saberalter123/NotePad/blob/master/image/img04.png)
    ![搜索3](https://github.com/Saberalter123/NotePad/blob/master/image/img05.png)
+   
+# UI美化
+--------
+* 显示的内容中，再添加笔记的文本内容，并且多加一个星级条
+  * 修改notelist_item.xml，修改后的代码为：
+  
+        <LinearLayout
+              android:id="@+id/linear2"
+              android:layout_width="0dp"
+              android:layout_weight="2"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+              <TextView
+                  android:id="@android:id/text1"
+                  android:layout_width="match_parent"
+                  android:layout_height="?android:attr/listPreferredItemHeight"
+                  android:textAppearance="?android:attr/textAppearanceLarge"
+                  android:textSize="30dp"
+                  android:gravity="center_vertical"
+                  android:paddingLeft="20dp"
+                  android:singleLine="true"
+              />
+
+              <TextView
+                  android:id="@android:id/text2"
+                  android:layout_width="match_parent"
+                  android:layout_height="?android:attr/listPreferredItemHeight"
+                  android:textSize="20dp"
+                  android:gravity="center_vertical"
+                  android:paddingLeft="10dp"
+                  android:singleLine="true"
+                  />
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="0dp"
+              android:layout_weight="1"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+              <TextView
+                  android:id="@+id/text3"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textColor="#00BFFF"/>
+              <LinearLayout
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
+                  <RatingBar
+                      android:id="@+id/rating"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:numStars="3"
+                      android:isIndicator="false"
+                      android:rating="2"
+                      android:stepSize="0.5"/>
+              </LinearLayout>
+
+
+          </LinearLayout>
+   * 像显示时间戳一样，显示笔记的内容，将上述有关显示的地方，都修改代码为：
+   
+        String[] dataColumns = {NotePad.Notes.COLUMN_NAME_TITLE, NotePad.Notes.COLUMN_NAME_NOTE, NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE};
+
+        int[] viewIDs = {android.R.id.text1, android.R.id.text2, R.id.text3};
+* 将各条笔记分割开来，在Notelist中的onCreate方法中添加下列代码：
+
+        ListView listView = getListView();
+        listView.setCacheColorHint(0x00000000);
+        listView.setDivider(new ColorDrawable(Color.BLACK));
+        listView.setDividerHeight(20);
+* 在编辑界面中，使得编辑的字体在编辑时能高亮显示，失去焦点后失去高亮
+   * 在drawable中创建高亮显示的资源文件edit_image.xml，代码如下：
+   
+         <?xml version="1.0" encoding="utf-8"?>
+         <selector xmlns:android="http://schemas.android.com/apk/res/android">
+             <!-- 指定获得焦点时的颜色-->
+             <item android:state_focused="true"
+                 android:color="#f44"/>
+             <!-- 指定失去焦点时的颜色-->
+             <item android:state_focused="false"
+                 android:color="#ccf"/>
+         </selector>
+   * 在note_editor和title_editor中，添加下面代码：
+   
+         android:textColor="@drawable/edit_image"
+* 使得编辑标题后点击的确定按钮能聚焦
+   * 在drawable中创建按钮的样式资源文件button_style.xml，代码如下：
+   
+         <?xml version="1.0" encoding="utf-8"?>
+         <selector
+             xmlns:android="http://schemas.android.com/apk/res/android">
+             <item android:state_pressed="true" >
+                 <shape>
+                     <!-- 渐变 -->
+                     <gradient
+                         android:startColor="#ff8c00"
+                         android:endColor="#FFFFFF"
+                         android:type="radial"
+                         android:gradientRadius="50" />
+                     <!-- 描边 -->
+                     <stroke
+                         android:width="2dp"
+                         android:color="#dcdcdc"
+                         android:dashWidth="5dp"
+                         android:dashGap="3dp" />
+                     <!-- 圆角 -->
+                     <corners
+                         android:radius="2dp" />
+                     <padding
+                         android:left="10dp"
+                         android:top="10dp"
+                         android:right="10dp"
+                         android:bottom="10dp" />
+                 </shape>
+             </item>
+
+             <item android:state_focused="true" >
+                 <shape>
+                     <gradient
+                         android:startColor="#ffc2b7"
+                         android:endColor="#ffc2b7"
+                         android:angle="270" />
+                     <stroke
+                         android:width="2dp"
+                         android:color="#dcdcdc" />
+                     <corners
+                         android:radius="2dp" />
+                     <padding
+                         android:left="10dp"
+                         android:top="10dp"
+                         android:right="10dp"
+                         android:bottom="10dp" />
+                 </shape>
+             </item>
+
+             <item>
+                 <shape>
+                     <solid android:color="#ff9d77"/>
+                     <stroke
+                         android:width="2dp"
+                         android:color="#fad3cf" />
+                     <corners
+                         android:topRightRadius="5dp"
+                         android:bottomLeftRadius="5dp"
+                         android:topLeftRadius="0dp"
+                         android:bottomRightRadius="0dp"
+                         />
+                     <padding
+                         android:left="10dp"
+                         android:top="10dp"
+                         android:right="10dp"
+                         android:bottom="10dp" />
+                 </shape>
+             </item>
+         </selector>
+  * UI美化后的效果如图：
+  ![UI整体图](https://github.com/Saberalter123/NotePad/blob/master/image/img11.png)
+    * 编辑界面，编辑文本内容时的高亮和失去焦点时的对比：
+    ![编辑内容无焦点](https://github.com/Saberalter123/NotePad/blob/master/image/img06.png)
+    ![编辑内容有焦点](https://github.com/Saberalter123/NotePad/blob/master/image/img07.png) 
+    * 编辑标题，有焦点和无无焦点的对比，按钮的效果显示：
+    ![编辑标题无焦点](https://github.com/Saberalter123/NotePad/blob/master/image/img08.png)
+    ![编辑标题无焦点](https://github.com/Saberalter123/NotePad/blob/master/image/img09.png) 
+      * 点击按钮时，按钮颜色的变化效果：
+      ![按钮的变化](https://github.com/Saberalter123/NotePad/blob/master/image/img10.png)
+   

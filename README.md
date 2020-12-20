@@ -376,7 +376,7 @@
       
 # 更改背景
 ----------
-* 创建我们需要的背景资源文件background.xml,background_red.xml,background_green.xml,background_grey.xml,background_orange.xml,它们的代码很相似，我以background_green.xml为例，代码如下：
+* 创建我们需要的背景资源文件background.xml,background_red.xml,background_green.xml,background_grey.xml,background_orange.xml,给背景设置圆角，增加描边，并且背景颜色为渐变色，它们的代码很相似，我以background_green.xml为例，代码如下：
 
        <?xml version="1.0" encoding="utf-8"?>
        <shape xmlns:android="http://schemas.android.com/apk/res/android"

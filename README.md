@@ -30,7 +30,7 @@
     String[] dataColumns = {NotePad.Notes.COLUMN_NAME_TITLE, NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE};
     int[] viewIDs = {android.R.id.text1, R.id.text3};
 * 上述时，显示的以毫秒为单位的一长串时间戳，需要对显示的时间进行数据处理。我采用的方法是，修改数据库中创建时间和修改时间的数据类型，使其直接存储为我们需要的时间显示格式。
-  *在NotePadProvider中先修改数据表中的创建时间和修改时间的数据类型
+  * 在NotePadProvider中先修改数据表中的创建时间和修改时间的数据类型
       @Override
        public void onCreate(SQLiteDatabase db) {
            db.execSQL("CREATE TABLE " + NotePad.Notes.TABLE_NAME + " ("
@@ -41,7 +41,7 @@
                    + NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE + " TEXT"
                    + ");");
        }
-  *在insert方法中修改初始化时的时间显示格式
+  * 在insert方法中修改初始化时的时间显示格式
       Long time_now = Long.valueOf(System.currentTimeMillis());
 
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -57,7 +57,7 @@
         if (values.containsKey(NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE) == false) {
             values.put(NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE, now);
         }
-  *在NoteEditor中updateNote方法中修改笔记更新时，修改时间的显示格式
+  * 在NoteEditor中updateNote方法中修改笔记更新时，修改时间的显示格式
       Long time_now = Long.valueOf(System.currentTimeMillis());
 
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
